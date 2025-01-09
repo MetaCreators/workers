@@ -1,5 +1,5 @@
 import { createClient } from "redis";
-const client = createClient();    
+const client = createClient(); //cloud redis url here?   
 
 async function main() {
     try {

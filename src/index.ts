@@ -13,6 +13,7 @@ async function main() {
                 //const response = await client.brPop("training",0);
                 //await processtraining(response.element); 
                 //logic to send user image to replicate for training
+                //TODO:Optional => acknowledgment for completion of task
                 await new Promise((resolve)=>setTimeout(resolve,2000))
             } catch (error) {
                  console.log("error processing training",error)

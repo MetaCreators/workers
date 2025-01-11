@@ -1,5 +1,6 @@
 import { createClient } from "redis";
-const client = createClient(); //cloud redis url here?   
+const client = createClient(); //cloud redis url here?  
+require('dotenv').config() 
 
 async function main() {
     try {

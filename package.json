@@ -17,6 +17,7 @@
     "dotenv": "^16.4.7",
     "nodemailer": "^6.9.16",
     "redis": "^4.7.0",
+    "replicate": "^1.0.1",
     "typescript": "^5.7.3"
   }
 }

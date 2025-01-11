@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const redis_1 = require("redis");
 const email_1 = require("./email");
+const finetune_1 = require("./finetune");
 const client = (0, redis_1.createClient)(); //cloud redis url here?  
 require('dotenv').config();
 function main() {
@@ -26,7 +27,14 @@ function main() {
                     //await processtraining(response.element); 
                     //logic to send user image to replicate for training
                     //TODO:Optional => acknowledgment for completion of task
-                    (0, email_1.sendEmail)("yashhegde010@gmail.com", "Hi User, your model is now ready to use. Happy lithouse-ing!");
+                    if (!response) {
+                        return;
+                    }
+                    const elementData = JSON.parse(response.element);
+                    const userId = elementData.userid;
+                    const outputVersion = yield (0, finetune_1.finetune)(userId);
+                    console.log("reached here in the main file,output version is: ", outputVersion);
+                    yield (0, email_1.sendEmail)("yashhegde010@gmail.com", "Hi User, your model is now ready to use. Happy lithouse-ing!");
                     yield new Promise((resolve) => setTimeout(resolve, 2000));
                 }
                 catch (error) {

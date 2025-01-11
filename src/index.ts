@@ -13,8 +13,6 @@ async function main() {
             try {
                 const response = await client.brPop("training", 0);
                 console.log(response);
-                //const response = await client.brPop("training",0);
-                //await processtraining(response.element); 
                 //logic to send user image to replicate for training
                 //TODO:Optional => acknowledgment for completion of task
                 if (!response) {

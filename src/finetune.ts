@@ -9,7 +9,7 @@ const replicate = new Replicate({
 //input username should contain userId,username,Image url
 export async function finetune(username:string) {
 
-    //const { username } = req.body;
+    //once zip file task is done, integrate it here and test out training on replicate
     // const training = await replicate.trainings.create(
     //     "ostris",
     //     "flux-dev-lora-trainer",

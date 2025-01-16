@@ -11,3 +11,8 @@ docker run \
   lithouse_worker
 
 ```
+
+building the image:
+```
+docker build -t lithouse_worker .
+```

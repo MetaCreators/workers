@@ -16,6 +16,7 @@ async function main() {
                 const response = await client.brPop("training", 0);
                 console.log(response);
                 //logic to send user image to replicate for training
+                //TODO: Pick items from the queue, fetch the image for training using userid, send to replicate for training
                 //TODO:Optional => acknowledgment for completion of task
                 if (!response) {
                     return

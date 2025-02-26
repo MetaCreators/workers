@@ -17,6 +17,7 @@ async function main() {
                 console.log(response);
                 //logic to send user image to replicate for training
                 //TODO: Pick items from the queue, fetch the image for training using userid, send to replicate for training
+                //get the userId from backend, then access user's bucket using his userId
                 //TODO:Optional => acknowledgment for completion of task
                 if (!response) {
                     return

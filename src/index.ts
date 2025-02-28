@@ -3,7 +3,7 @@ import { sendEmail } from "./email";
 import { finetune } from "./finetune";
 const client = createClient({
     url: process.env.REDIS_URL
-}); //cloud redis url here?  
+}); 
 require('dotenv').config() 
 
 async function main() {

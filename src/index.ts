@@ -25,7 +25,8 @@ async function main() {
                 const elementData = JSON.parse(response.element);
                 const userId = elementData.userid;
 
-                const outputVersion = await finetune(userId);
+                //const outputVersion = await finetune(userId,);
+                const outputVersion = await finetune("Shikhar","1740786735073.zip",userId)
                 console.log("reached here in the main file,output version is: ",outputVersion)
                 await sendEmail("yashhegde010@gmail.com","Hi User, your model is now ready to use. Happy lithouse-ing!\n\nIf you have any queries, feel free to mail us at lithouse.in@gmail.com")
                 await new Promise((resolve)=>setTimeout(resolve,2000))

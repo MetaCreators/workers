@@ -12,7 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const redis_1 = require("redis");
 const email_1 = require("./email");
 const finetune_1 = require("./finetune");
-const client = (0, redis_1.createClient)(); //cloud redis url here?  
+const client = (0, redis_1.createClient)({
+    url: process.env.REDIS_URL
+});
 require('dotenv').config();
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -24,15 +26,18 @@ function main() {
                     const response = yield client.brPop("training", 0);
                     console.log(response);
                     //logic to send user image to replicate for training
+                    //TODO: Pick items from the queue, fetch the image for training using userid, send to replicate for training
+                    //get the userId from backend, then access user's bucket using his userId
                     //TODO:Optional => acknowledgment for completion of task
                     if (!response) {
                         return;
                     }
                     const elementData = JSON.parse(response.element);
                     const userId = elementData.userid;
-                    const outputVersion = yield (0, finetune_1.finetune)(userId);
+                    //const outputVersion = await finetune(userId,);
+                    const outputVersion = yield (0, finetune_1.finetune)("Shikhar", "1740786735073.zip", userId);
                     console.log("reached here in the main file,output version is: ", outputVersion);
-                    yield (0, email_1.sendEmail)("yashhegde010@gmail.com", "Hi User, your model is now ready to use. Happy lithouse-ing!");
+                    yield (0, email_1.sendEmail)("yashhegde010@gmail.com", "Hi User, your model is now ready to use. Happy lithouse-ing!\n\nIf you have any queries, feel free to mail us at lithouse.in@gmail.com");
                     yield new Promise((resolve) => setTimeout(resolve, 2000));
                 }
                 catch (error) {

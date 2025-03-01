@@ -20,7 +20,7 @@ export async function finetune(username: string,filename:string,userId:string) {
   const presignedGETURL = await s3Client.getSignedUrl('getObject', {
     Bucket: 'lithouseuserimages',
     Key: `${userId}/trainingImages/${filename}`,
-    Expires: 10800 
+    Expires: 604800 //this is for 7 days, change it to something legit 
   })
 
   console.log("presigned url for get zip file is", presignedGETURL);

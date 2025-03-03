@@ -41,7 +41,7 @@ export async function finetune(username: string,filename:string,userId:string) {
   //             resolution: "512,768,1024",
   //             autocaption: true,
   //             //TODO: Fix input_images to accept zip file as input
-  //             input_images: "https://",
+  //             input_images:presignedGETURL,
   //             trigger_word: username,
   //             learning_rate: 0.0004,
   //             wandb_project: "flux_train_replicate",

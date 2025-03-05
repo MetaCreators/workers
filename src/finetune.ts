@@ -52,6 +52,9 @@ export async function finetune(username: string,filename:string,userId:string) {
           }
       }
   );
+
+  //TODO: hit the /training-status url on backend for updating training status
+
   //useful output parameters from training =>
   //training.status
   //completed_at

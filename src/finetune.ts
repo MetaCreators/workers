@@ -77,7 +77,7 @@ export async function finetune(username: string,filename:string,userId:string) {
 // Message Delivery Guarantees
 
 // Redis pubsub doesn't guarantee message delivery if no subscribers are active
-// Consider implementing an acknowledgment mechanism or use Redis Streams instead of basic pubsub
+// Consider implementing an acknowledgment mechanism or use Redis Streams instead of basic pubsub (https://redis.io/docs/latest/develop/interact/pubsub/#delivery-semantics)
 
 // Recovery Scenarios
 

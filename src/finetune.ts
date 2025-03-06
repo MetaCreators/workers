@@ -62,6 +62,51 @@ export async function finetune(username: string,filename:string,userId:string) {
   // SO AGAIN THE BE UPDATES THE DB FOR THAT USERID
   // WHAT ARE OTHER CONSIDERATIONS REQUIRED HERE ? IS THERE ANY SORT OF CLEANUP REQUIRED ? MENTION OTHER THINGS AS WELL
 
+//   Key Considerations & Improvements
+// Message Format
+
+// Add timestamps to your messages: {userId: "123", status: "PENDING", timestamp: 1654321987}
+// Include more detailed information when relevant: {userId: "123", status: "FAILED", errorCode: "OUT_OF_MEMORY", errorMessage: "Not enough RAM", timestamp: 1654321987}
+
+// Error Handling
+
+// What happens if the worker crashes during processing?
+// Consider adding a "STARTED" status before "PENDING" to differentiate queue pickup from actual processing
+// Implement heartbeat messages for long-running training jobs
+
+// Message Delivery Guarantees
+
+// Redis pubsub doesn't guarantee message delivery if no subscribers are active
+// Consider implementing an acknowledgment mechanism or use Redis Streams instead of basic pubsub
+
+// Recovery Scenarios
+
+// If the backend restarts, how does it know about in-progress jobs?
+// Store job state in Redis (not just as pubsub messages) for persistence
+
+// Resource Cleanup
+
+// Set TTL (time-to-live) for Redis keys
+// Implement garbage collection for temporary files generated during training
+// Clear memory-intensive resources after job completion
+
+// Monitoring & Debugging
+
+// Add logging for each message published/received
+// Consider adding a job ID (besides userId) to track specific training runs
+  // Log performance metrics (processing time, resource usage)
+  
+//   {
+//   "jobId": "train_123456",
+//   "userId": "user_789",
+//   "status": "PENDING", 
+//   "progress": 0,
+//   "timestamp": 1709747230,
+//   "metadata": {
+//     "modelType": "classification",
+//     "datasetSize": 1024
+//   }
+// }
   //TODO: hit the /training-status url on backend for updating training status
 
   //useful output parameters from training =>

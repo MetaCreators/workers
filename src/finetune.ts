@@ -2,13 +2,15 @@ import Replicate from "replicate";
 import { training } from "./test";
 require('dotenv').config()
 import * as aws from "aws-sdk";
+import { getRedisClient } from "./redis/redis-client";
 
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
 });
 
 //input username should contain userId,username,Image url
-export async function finetune(username: string,filename:string,userId:string) {
+export async function finetune(username: string, filename: string, userId: string) {
+  const redisClient = await getRedisClient();
 
   const digiendpoint = new aws.Endpoint("blr1.digitaloceanspaces.com");
   const s3Client = new aws.S3({
@@ -53,10 +55,23 @@ export async function finetune(username: string,filename:string,userId:string) {
       }
   );
 
+  //training.status="canceled" || "processing" || "failed" || "starting" || "succeeded"
+  //PENDING
+  if (training.status === "succeeded") {
+    const trainingStatus = {
+      userId,
+      filename,
+      status:"success"
+    }
+    await redisClient.publish('TRAINING_STATUS', JSON.stringify(trainingStatus));
+  }
+
+
+
   //TODO: PUBSUB ARCHITECTURE FOR CREATION OF NEW MODELS AND UPDATING TRAINING STATUS
   // CHANNELS: TRAINING_STATUS
   // BACKEND AND WORKER BOTH SUBSCRIBE TO THESE CHANNELS
-  // BE => PUSHES TO REDIS QUEUE => WORKER PICKS UP USERID FROM THE QUEUE => STARTS PROCESSING => WORKER PUBLISHES {USERID:USERID, STATUS: "PENDING"} TO TRAINING_STATUS CHANNEL
+  // BE => PUSHES TO REDIS QUEUE => WORKER PICKS UP USERID FROM THE QUEUE => STARTS PROCESSING (WORKER PUBLISHES {USERID:USERID, STATUS: "STARTED"} ) => WORKER PUBLISHES {USERID:USERID, STATUS: "PENDING"} TO TRAINING_STATUS CHANNEL
   // SINCE BE HAS SUBSCRIBED TO TRAINING_STATUS , IT RECEIVES THIS "PENDING" MESSAGE AND UPDATES THE DB FOR THAT USERID
   // WHEN THE TRAINING IS COMPLETE, WORKER PUBLISHES {USERID:USERID, STATUS: "FAILED" || "SUCCESS"} TO TRAINING_STATUS CHANNEL
   // SO AGAIN THE BE UPDATES THE DB FOR THAT USERID

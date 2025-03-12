@@ -54,13 +54,15 @@ export async function finetune(username: string, filename: string, userId: strin
       }
     }
   );
+  //TODO: Since we are awaiting the training, we will always get either "succeeded" or "failed" status and not others. Hence above code needs to be modified to handle other statuses as well.
 
   //training.status="canceled" || "processing" || "failed" || "starting" || "succeeded"
 
   const trainingStatus = {
     userId,
     filename,
-    status: training.status
+    status: training.status,
+    modelId: training.id
   }
   await redisClient.publish('TRAINING_STATUS', JSON.stringify(trainingStatus));
 
